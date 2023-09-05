@@ -56,12 +56,7 @@ enum
 
 void Set_Time()
 {
-	uint16_t syc=0;
-	while(GPGGA_Data[syc]!='G' & GPGGA_Data[syc+1]!='G' & GPGGA_Data[syc+2]!='A' & GPGGA_Data[syc+3]!=',')
-	{
 
-		syc++;
-	}
 	GGA_Str.hh = ((GPGGA_Data[7]-'0')*10+(uint8_t)GPGGA_Data[8]-'0')+3; //GMT +3
 	GGA_Str.mm = (GPGGA_Data[9]-'0')*10+(uint8_t)GPGGA_Data[10]-'0';
 	GGA_Str.ss = (GPGGA_Data[11]-'0')*10+(uint8_t)GPGGA_Data[12]-'0';
