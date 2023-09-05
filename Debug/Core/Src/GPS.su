@@ -1,0 +1,5 @@
+../Core/Src/GPS.c:57:6:Set_Time	16	static
+../Core/Src/GPS.c:70:6:Get_RMC	8	static
+../Core/Src/GPS.c:77:6:Get_GGA	8	static
+../Core/Src/GPS.c:83:10:Sp_finder	24	static
+../Core/Src/GPS.c:170:6:Reorder_data	24	static
