@@ -71,6 +71,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		HAL_GPIO_TogglePin(Blink_GPIO_Port,Blink_Pin);
 		Set_Time();
+		Set_Location();
 	}
 }
 

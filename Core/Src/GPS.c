@@ -7,7 +7,7 @@
 
 
 #include <GPS.h>
-
+#include <stdbool.h>
 
 
 extern char Buffer[500];
@@ -17,21 +17,29 @@ extern UART_HandleTypeDef huart2;
 
 // ------------------STRUCTURES----------------------
 
-struct
+struct GGA_Str
 {
-uint8_t hh;
-uint8_t mm;
-uint8_t ss;
-char pol1;
-float longitude;
-char pol2;
-float latitude;
-}GGA_Str;
+	uint8_t hh;
+	uint8_t mm;
+	uint8_t ss;
+	char pol1;
+	float longitude;
+	char pol2;
+	float latitude;
+};
 
+struct Coordinate//(latitude,longitude)=(enlem,boylam)
+{
+	float latitude;
+	char L_hemisphere;
+	float longitude;
+	char T_hemisphere;
 
+};
 
 // ------------------VARIABLES----------------------
 char GPRMC_Data[100],GPGGA_Data[100];
+bool GPS_Connection_Stat = false;
 
 // -------------------------------------------------
 uint16_t Strting_point;
@@ -56,11 +64,30 @@ enum
 
 void Set_Time()
 {
+	struct GGA_Str Time;
 
-	GGA_Str.hh = ((GPGGA_Data[7]-'0')*10+(uint8_t)GPGGA_Data[8]-'0')+3; //GMT +3
-	GGA_Str.mm = (GPGGA_Data[9]-'0')*10+(uint8_t)GPGGA_Data[10]-'0';
-	GGA_Str.ss = (GPGGA_Data[11]-'0')*10+(uint8_t)GPGGA_Data[12]-'0';
+	Time.hh = ((GPGGA_Data[7]-'0')*10+(uint8_t)GPGGA_Data[8]-'0')+3; //GMT +3
+	Time.mm = (GPGGA_Data[9]-'0')*10+(uint8_t)GPGGA_Data[10]-'0';
+	Time.ss = (GPGGA_Data[11]-'0')*10+(uint8_t)GPGGA_Data[12]-'0';
 }
+
+void Set_Location()
+{
+	struct Coordinate Coord;
+
+
+	Coord.latitude= (GPGGA_Data[17]-'0')*10 + (GPGGA_Data[18]-'0')*1 + (GPGGA_Data[19]-'0')*0.1 + (GPGGA_Data[20]-'0')*0.01 + (GPGGA_Data[21]-'0')*0.001 + (GPGGA_Data[22]-'0')*0.0001 + (GPGGA_Data[23]-'0')*0.00001 + (GPGGA_Data[24]-'0')*0.000001 + (GPGGA_Data[25]-'0')*0.0000001 + (GPGGA_Data[26]-'0')*0.00000001;
+	Coord.L_hemisphere=GPGGA_Data[28];
+	Coord.longitude= (GPGGA_Data[31]-'0')*10 + (GPGGA_Data[32]-'0')*1 + (GPGGA_Data[33]-'0')*0.1 + (GPGGA_Data[34]-'0')*0.01 + (GPGGA_Data[35]-'0')*0.001 + (GPGGA_Data[36]-'0')*0.0001 + (GPGGA_Data[37]-'0')*0.00001 + (GPGGA_Data[38]-'0')*0.000001 + (GPGGA_Data[39]-'0')*0.0000001 + (GPGGA_Data-'0')[40]*0.00000001;
+	Coord.T_hemisphere = GPGGA_Data[42];
+
+	if(Coord.L_hemisphere == 'N' || Coord.L_hemisphere == 'S' && Coord.T_hemisphere == 'E'  || Coord.T_hemisphere == 'W')
+	{
+		GPS_Connection_Stat = true;
+	}
+	else GPS_Connection_Stat = false;
+}
+
 
 void Get_RMC()//Recommended Minimum Navigation Information
 {

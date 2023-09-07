@@ -12,12 +12,13 @@
 #include <stdio.h>
 #include <main.h>
 #include "stm32f1xx_hal.h"
-
+#include "stdbool.h"
 //Prototype
 
 void Get_GGA();
 void Get_RMC();
 void Set_Time();
+void Set_Location();
 void Reorder_data(uint16_t sp,uint8_t s_case);
 uint16_t Sp_finder(uint8_t s_case);
 
