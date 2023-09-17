@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <GPS.h>
+#include <SIM800.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,7 +49,7 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 char Buffer[500];
 char Data[100];
-
+char buffer22[25];
 
 /* USER CODE END PV */
 
@@ -72,6 +73,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		HAL_GPIO_TogglePin(Blink_GPIO_Port,Blink_Pin);
 		Set_Time();
 		Set_Location();
+		test();
 	}
 }
 
