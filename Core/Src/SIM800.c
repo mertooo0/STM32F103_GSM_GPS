@@ -1,9 +1,10 @@
 #include <stdlib.h>
 #include<SIM800.h>
 #include "stm32f1xx_hal.h"
+#include "string.h"
 
 extern UART_HandleTypeDef huart1;
-
+//extern UART_HandleTypeDef huart2;
 //------Variables----------
 
 extern char buffer22;
@@ -11,7 +12,7 @@ extern char buffer22;
 //-------------------------
 //-------COMMANDS---------
 
-char Command1[]="AT",
+char Command1[5]="AT\r\n",
 	 Command2[]="AT+CPIN?",
 	 Command3[]="AT+CREG?",
 	 Command4[]="AT+CGATT?",
@@ -31,6 +32,7 @@ char Command1[]="AT",
 
 void test()
 {
-HAL_UART_Transmit(&huart1,(uint8_t)Command1,sizeof(Command1),100);
-HAL_UART_Receive(&huart1,(uint8_t)buffer22,25, 1000);
+	HAL_UART_Transmit(&huart1,(uint8_t*)Command1,strlen(Command1),100);//!!HUART1 TX VERİ GÖNDERMİYOR
+	//HAL_UART_Receive(&huart1,(uint8_t*)buffer22,2, 100);
+
 }

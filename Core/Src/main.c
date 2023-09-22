@@ -49,8 +49,8 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 char Buffer[500];
 char Data[100];
-char buffer22[25];
-
+char RxBuffer[5];
+char ReOrder[4];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -75,6 +75,25 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		Set_Location();
 		test();
 	}
+}
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart == &huart1)
+	{
+		int syc=0;
+		while(RxBuffer[syc]!='O')
+		{
+
+
+			syc++;
+
+		}
+
+		ReOrder[0]=RxBuffer[syc];
+
+	}
+	HAL_UART_Receive_IT(&huart1, (uint8_t*)RxBuffer,5);
+
 }
 
 /* USER CODE END 0 */
@@ -112,7 +131,7 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 
-
+  HAL_UART_Receive_IT(&huart1, (uint8_t*)RxBuffer,5);
   HAL_TIM_Base_Start_IT(&htim1);
 
   memset(Data,0,100);
