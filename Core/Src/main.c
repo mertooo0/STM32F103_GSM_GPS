@@ -49,8 +49,8 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 char Buffer[500];
 char Data[100];
-char RxBuffer[5];
-char ReOrder[4];
+char RxBuffer[25];
+char ReOrder[10];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -81,19 +81,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if(huart == &huart1)
 	{
-		int syc=0;
-		while(RxBuffer[syc]!='O')
-		{
-
-
-			syc++;
-
-		}
-
-		ReOrder[0]=RxBuffer[syc];
 
 	}
-	HAL_UART_Receive_IT(&huart1, (uint8_t*)RxBuffer,5);
+	HAL_UART_Receive_IT(&huart1, RxBuffer,20);
 
 }
 
@@ -134,9 +124,10 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_UART_Receive_IT(&huart1, (uint8_t*)RxBuffer,5);
-  HAL_TIM_Base_Start_IT(&htim1);
 
+  HAL_TIM_Base_Start_IT(&htim1);
+  HAL_UART_Receive_IT(&huart1, RxBuffer,20);
+  SIM800_Init();
   memset(Data,0,100);
   /* USER CODE END 2 */
 
@@ -150,9 +141,14 @@ int main(void)
 
 	  HAL_Delay(1000);
 	  //HAL_GPIO_TogglePin(Blink_GPIO_Port,Blink_Pin);
-
+	  for(int i=0;i<10;i++)
+	  {
+		  SIM800l_Send_Data(i);
+		  HAL_Delay(1250);
+	  }
 	  Get_GGA();
 	  Get_RMC();
+
 
   }
   /* USER CODE END 3 */
