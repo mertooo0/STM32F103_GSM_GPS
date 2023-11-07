@@ -1,6 +1,6 @@
-../Core/Src/GPS.c:65:6:Set_Time	24	static
-../Core/Src/GPS.c:74:6:Set_Location	32	static
-../Core/Src/GPS.c:92:6:Get_RMC	8	static
-../Core/Src/GPS.c:99:6:Get_GGA	8	static
-../Core/Src/GPS.c:105:10:Sp_finder	24	static
-../Core/Src/GPS.c:192:6:Reorder_data	24	static
+../Core/Src/GPS.c:65:6:Set_Time	32	static
+../Core/Src/GPS.c:104:6:Set_Location	32	static
+../Core/Src/GPS.c:122:6:Get_RMC	8	static
+../Core/Src/GPS.c:129:6:Get_GGA	8	static
+../Core/Src/GPS.c:135:10:Sp_finder	24	static
+../Core/Src/GPS.c:222:6:Reorder_data	24	static

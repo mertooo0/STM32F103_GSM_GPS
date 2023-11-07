@@ -65,10 +65,40 @@ enum
 void Set_Time()
 {
 	struct GGA_Str Time;
-
+	uint8_t Comma_Trig=0;
+	uint16_t syc=0;
+/*
 	Time.hh = ((GPGGA_Data[7]-'0')*10+(uint8_t)GPGGA_Data[8]-'0')+3; //GMT +3
 	Time.mm = (GPGGA_Data[9]-'0')*10+(uint8_t)GPGGA_Data[10]-'0';
 	Time.ss = (GPGGA_Data[11]-'0')*10+(uint8_t)GPGGA_Data[12]-'0';
+*/
+	Get_GGA();
+
+	while(Comma_Trig<=0)//GPGGA_Data bufferındaki verilerin analizi ',' e göre yapılmıştır
+	{
+		if(GPGGA_Data[syc]==',')
+		{
+			if(GPGGA_Data[syc+1] == ',')//No data has received yet
+			{
+				Time.hh=0;
+				Time.mm=0;
+				Time.ss=0;
+
+			}
+
+			else
+			{
+				Time.hh= ((GPGGA_Data[syc+1]-'0')*10+(uint8_t)GPGGA_Data[syc+2]-'0')+3;
+				Time.mm = (GPGGA_Data[syc+3]-'0')*10+(uint8_t)GPGGA_Data[syc+4]-'0';
+				Time.ss = (GPGGA_Data[syc+5]-'0')*10+(uint8_t)GPGGA_Data[syc+6]-'0';
+			}
+
+			Comma_Trig=1;
+		}
+
+		syc++;
+	}
+
 }
 
 void Set_Location()
