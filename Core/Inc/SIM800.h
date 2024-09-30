@@ -21,6 +21,8 @@
 uint8_t test();
 uint8_t test2();
 uint8_t Check_OK();
+void SIM800_Init();
+void SIM800l_Send_Data(int val);
 
 
 
